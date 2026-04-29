@@ -89,4 +89,28 @@ function registrarNuevaHabitacion (callback) {
 console.log(registrarNuevaHabitacion());
 
 
+//Buscar habitacion por numero.
 
+function habitacionNumero(callback) {
+
+    let busqueda = parseInt(prompt('ingrese el numero de la habitacion a buscar: '))
+    
+    
+    console.log("consultando base de datos del hotel ...")
+
+    setTimeout(function(){
+        let encontrada = habitaciones.find(function(cuarto){
+            return cuarto.numero === busqueda;
+        })
+        if (encontrada){
+            if (encontrada.disponible){
+                console.log("La habitacion ",encontrada.numero," esta OCUPADA")
+            }else {
+                console.log("el cuarto numero ", encontrada.numero," esta DISPONIBLE")
+            }
+            
+        }else{
+            console.log("Habitacion no encontrada, intente de nuevo")
+        }
+    },2000)
+}
