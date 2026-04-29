@@ -23,6 +23,7 @@ function menu(){
             break
         case "4":
             console.log("----- CAMBIAR ESTADO DE UNA HABITACIÓN -----")
+            cambiarEstado(menu)
             break
         case "5":
             console.log("----- ELIMINAR HABITACIÓN ------")
@@ -49,3 +50,33 @@ function listarHabitaciones(callback){
 }
 
 menu()
+
+function cambiarEstado(callback){
+    let numeroHabitacion = Number(prompt("Ingrese el número de la habitación a cambiar su estado: "))
+    setTimeout(()=>{
+        console.log("Esperando al personal del hotel...")
+    }, 3000)
+    
+    const habitacion = habitaciones.find(habitacion => habitacion.numero === numeroHabitacion)
+    if (habitacion.disponible === true){
+        estadoInicial = "disponible"
+    }else{
+        estadoInicial = "ocupada"
+    }
+    if (habitacion){
+        console.log("Estado actual de la habitación:",estadoInicial)
+        let estado = prompt("Ingrese el nuevo estado de la habitación (disponible, ocupada: ")
+        if(estado.toLocaleLowerCase() === "ocupado" || estado.toLocaleLowerCase() === "ocupada"){
+            habitacion.disponible = false
+        }else if(estado.toLocaleLowerCase() === "disponible" || estado.toLocaleLowerCase() === "disponible"){
+            habitacion.disponible = true
+        }else{
+            console.log("Estado no válido")
+        }
+        console.log("El estado de la habitación",habitacion.numero,"ha sido actualizado a",estado)        }else{
+        console.log("La habitación",habitacion.numero,"no se encuentra registrada.")
+    }
+    setTimeout(()=>{
+        callback()
+    },2000)
+}
