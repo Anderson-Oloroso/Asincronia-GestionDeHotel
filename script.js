@@ -1,5 +1,3 @@
-let habitaciones = []
-
 function menu(){
     let opc = prompt("============= HOTEL STITCH =============\n"+
                     "1. Registrar habitaciones\n"+
