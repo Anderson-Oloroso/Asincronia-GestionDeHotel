@@ -1,3 +1,5 @@
+let habitaciones = []
+
 function menu(){
     let opc = prompt("============= HOTEL STITCH =============\n"+
                     "1. Registrar habitaciones\n"+
@@ -10,9 +12,11 @@ function menu(){
     switch(opc){
         case "1":
             console.log("----- RESGISTRAR HABITACIONES -----")
+
             break
         case "2":
             console.log("----- LISTAR HABITACIONES -----")
+            listarHabitaciones(menu)
             break
         case "3":
             console.log("----- BUSCAR HABITACIÓN POR NÚMERO -----")
@@ -30,3 +34,18 @@ function menu(){
             console.log("INGRESE UNA OPCION VÀLIDA")
     }
 }
+
+function listarHabitaciones(callback){
+    if (habitaciones.length === 0){
+        console.log("Aun no hay registros")
+    }else{
+        habitaciones.forEach(habitacion=>{
+            console.log(habitacion)
+        })
+    }
+    setTimeout(()=>{
+        callback()
+    },2000)
+}
+
+menu()
