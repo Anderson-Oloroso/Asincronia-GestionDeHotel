@@ -175,42 +175,6 @@ function menu(){
     }
 }
 
-function listarHabitaciones(callback){
-    if (habitaciones.length === 0){
-        console.log("Aun no hay registros")
-    }else{
-        habitaciones.forEach(habitacion=>{
-            console.log(habitacion)
-        })
-    }
-    setTimeout(()=>{
-        callback()
-    },2000)
-}
-
-menu()
-
-function registrarNuevaHabitacion (callback) {
-  let numero = prompt("Ingrese el número de habitación:");
-  let tipo = prompt(" de la habitacion (individual o doble):")
-  let precio = Number(prompt("ingrese el precio de la habitacion:"))
-
-  console.log("validando informacion de habitacion...")
-
-  const nuevahabitacion={
-    id : habitaciones.length + 1,
-    numero: numero,
-    tipo :tipo,
-    precio : precio,
-    disponible : true
-  }
-  
-  habitaciones.push(nuevahabitacion)
-
-  console.log("habitacion registrada correctamente")
-
-}
-
 function habitacionNumero(callback) {
 
     let busqueda = parseInt(prompt('ingrese el numero de la habitacion a buscar: '))
