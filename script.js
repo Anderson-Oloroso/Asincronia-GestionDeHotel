@@ -90,12 +90,14 @@ function cambiarEstado(callback){
             estado.toLocaleLowerCase()
             if(estado === "ocupado" || estado.toLocaleLowerCase() === "ocupada"){
                 habitacion.disponible = false
+                nuevoEstado = "ocupada"
             }else if(estado === "disponible"){
                 habitacion.disponible = true
+                nuevoEstado = "disponible"
             }else{
                 console.log("Estado no válido use: 'disponible' o 'ocupado'")
             }
-            console.log("El estado de la habitación",habitacion.numero,"ha sido actualizado a",estado)        
+            console.log("El estado de la habitación",habitacion.numero,"ha sido actualizado a",nuevoEstado)        
         }else{
             console.log("La habitación",habitacion.numero,"no se encuentra registrada.")
         }
@@ -134,9 +136,10 @@ function registrarNuevaHabitacion (callback) {
   }
   
   habitaciones.push(nuevahabitacion)
-
-  console.log("habitacion registrada correctamente")
-
+  setTimeout(()=>{
+    console.log("habitacion registrada correctamente")
+    callback()
+  },2000)
 }
 
 function menu(){
@@ -159,6 +162,7 @@ function menu(){
             break
         case "3":
             console.log("----- BUSCAR HABITACIÓN POR NÚMERO -----")
+            habitacionNumero(menu)
             break
         case "4":
             console.log("----- CAMBIAR ESTADO DE UNA HABITACIÓN -----")
@@ -166,18 +170,23 @@ function menu(){
             break
         case "5":
             console.log("----- ELIMINAR HABITACIÓN ------")
+            eliminarHabitacion(menu)
             break
         case "6":
             console.log("------ SALIENDO DEL PROGRAMA ... -----")
+            setTimeout(()=>{
+                console.log("¡Gracias por usar el sistema de gestión de habitaciones del Hotel Stitch! ¡Hasta luego!")
+            },2000)
             return
         default:
-            console.log("INGRESE UNA OPCION VÀLIDA")
+            console.log("INGRESE UNA OPCION VÁLIDA")
+            this.menu()
     }
 }
 
 function habitacionNumero(callback) {
 
-    let busqueda = parseInt(prompt('ingrese el numero de la habitacion a buscar: '))
+    let busqueda = prompt('ingrese el numero de la habitacion a buscar: ')
     
     
     console.log("consultando base de datos del hotel ...")
@@ -186,21 +195,30 @@ function habitacionNumero(callback) {
         let encontrada = habitaciones.find(function(cuarto){
             return cuarto.numero === busqueda;
         })
+
         if (encontrada){
+            if (encontrada.disponible === true){
+                    estado = "DISPONIBLE"
+                }else{
+                    estado = "OCUPADA"
+            }
             if (encontrada.disponible){
-                console.log("La habitacion ",encontrada.numero," esta OCUPADA")
+                console.log("La habitacion ",encontrada.numero," esta ",estado)
             }else {
-                console.log("el cuarto numero ", encontrada.numero," esta DISPONIBLE")
+                console.log("el cuarto numero ", encontrada.numero," esta ",estado)
             }
             
         }else{
             console.log("Habitacion no encontrada, intente de nuevo")
         }
+        setTimeout(()=>{
+            callback()
+        })
     },2000)
 }
 
 function eliminarHabitacion(callback) {
-    let busqueda = parseInt(prompt('Ingrese el número de la habitación a eliminar: '));
+    let busqueda = prompt('Ingrese el número de la habitación a eliminar: ');
 
     console.log("Consultando base de datos del hotel...");
 
@@ -217,5 +235,8 @@ function eliminarHabitacion(callback) {
             console.log("Habitación no encontrada, no se pudo eliminar.");
             if (callback) callback(null);
         }
+        callback()
     }, 2000);
 }
+
+menu()
