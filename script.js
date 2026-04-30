@@ -189,3 +189,69 @@ function listarHabitaciones(callback){
 }
 
 menu()
+
+function registrarNuevaHabitacion (callback) {
+  let numero = prompt("Ingrese el número de habitación:");
+  let tipo = prompt(" de la habitacion (individual o doble):")
+  let precio = Number(prompt("ingrese el precio de la habitacion:"))
+
+  console.log("validando informacion de habitacion...")
+
+  const nuevahabitacion={
+    id : habitaciones.length + 1,
+    numero: numero,
+    tipo :tipo,
+    precio : precio,
+    disponible : true
+  }
+  
+  habitaciones.push(nuevahabitacion)
+
+  console.log("habitacion registrada correctamente")
+
+}
+
+function habitacionNumero(callback) {
+
+    let busqueda = parseInt(prompt('ingrese el numero de la habitacion a buscar: '))
+    
+    
+    console.log("consultando base de datos del hotel ...")
+
+    setTimeout(function(){
+        let encontrada = habitaciones.find(function(cuarto){
+            return cuarto.numero === busqueda;
+        })
+        if (encontrada){
+            if (encontrada.disponible){
+                console.log("La habitacion ",encontrada.numero," esta OCUPADA")
+            }else {
+                console.log("el cuarto numero ", encontrada.numero," esta DISPONIBLE")
+            }
+            
+        }else{
+            console.log("Habitacion no encontrada, intente de nuevo")
+        }
+    },2000)
+}
+
+function eliminarHabitacion(callback) {
+    let busqueda = parseInt(prompt('Ingrese el número de la habitación a eliminar: '));
+
+    console.log("Consultando base de datos del hotel...");
+
+    setTimeout(function() {
+        let indice = habitaciones.findIndex(cuarto => cuarto.numero === busqueda);
+
+        if (indice !== -1) {
+
+            let eliminada = habitaciones.splice(indice, 1)[0];
+            console.log("La habitación", eliminada.numero, "ha sido ELIMINADA de la base de datos.");
+
+            if (callback) callback(eliminada);
+        } else {
+            console.log("Habitación no encontrada, no se pudo eliminar.");
+            if (callback) callback(null);
+        }
+    }, 2000);
+}
