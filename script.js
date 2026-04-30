@@ -86,11 +86,6 @@ function registrarNuevaHabitacion (callback) {
 
 }
 
-console.log(registrarNuevaHabitacion());
-
-
-//Buscar habitacion por numero.
-
 function habitacionNumero(callback) {
 
     let busqueda = parseInt(prompt('ingrese el numero de la habitacion a buscar: '))
@@ -113,4 +108,25 @@ function habitacionNumero(callback) {
             console.log("Habitacion no encontrada, intente de nuevo")
         }
     },2000)
+}
+
+function eliminarHabitacion(callback) {
+    let busqueda = parseInt(prompt('Ingrese el número de la habitación a eliminar: '));
+
+    console.log("Consultando base de datos del hotel...");
+
+    setTimeout(function() {
+        let indice = habitaciones.findIndex(cuarto => cuarto.numero === busqueda);
+
+        if (indice !== -1) {
+
+            let eliminada = habitaciones.splice(indice, 1)[0];
+            console.log("La habitación", eliminada.numero, "ha sido ELIMINADA de la base de datos.");
+
+            if (callback) callback(eliminada);
+        } else {
+            console.log("Habitación no encontrada, no se pudo eliminar.");
+            if (callback) callback(null);
+        }
+    }, 2000);
 }
